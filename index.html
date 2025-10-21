@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QLTT Lop Hoc</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to QLTT Lop Hoc</h1>
+        <nav id="nav-area">
+            <!-- Login form shown when not logged in -->
+            <form id="login-form" class="inline-form">
+                <input type="text" id="username" placeholder="Tên đăng nhập" required>
+                <input type="password" id="password" placeholder="Mật khẩu" required>
+                <button type="submit">Đăng nhập</button>
+            </form>
+
+            <!-- Shown when logged in -->
+            <div id="user-area" class="hidden">
+                <span id="welcome-text"></span>
+                <button id="logout-btn">Đăng xuất</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Default content -->
+        <section id="public-content">
+            <p>This is the main content area of the web application.</p>
+        </section>
+
+        <!-- Role-specific dashboards -->
+        <section id="student-dashboard" class="hidden">
+            <h2>Dashboard - Sinh viên</h2>
+            <p>Danh sách môn học, điểm, thông báo dành cho sinh viên.</p>
+        </section>
+
+        <section id="teacher-dashboard" class="hidden">
+            <h2>Dashboard - Giảng viên</h2>
+            <p>Quản lý lớp, danh sách sinh viên, chấm điểm.</p>
+        </section>
+
+        <section id="admin-dashboard" class="hidden">
+            <h2>Dashboard - Admin</h2>
+            <p>Quản lý người dùng, phân quyền, cấu hình hệ thống.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 QLTT Lop Hoc. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+/* Basic layout & visibility helpers */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0 1rem;
+  background: #f7f9fc;
+  color: #222;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e0e6ef;
+}
+
+.inline-form input,
+.inline-form select {
+  margin-right: .5rem;
+  padding: .4rem .5rem;
+}
+
+.inline-form button,
+#logout-btn {
+  padding: .45rem .7rem;
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.inline-form button:hover,
+#logout-btn:hover {
+  background: #0a58ca;
+}
+
+.hidden { display: none; }
+
+main {
+  padding: 1rem 0;
+}
+
+section {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+  margin-bottom: 1rem;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.header {
+    background: #35424a;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer {
+    background: #35424a;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.button {
+    display: inline-block;
+    font-size: 18px;
+    color: #ffffff;
+    background: #e8491d;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background: #333;
+}
