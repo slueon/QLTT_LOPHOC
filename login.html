@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Đăng nhập - QLTT_LopHoc</title>
+  <style>
+    :root{
+      --bg-1:#a8e6cf;  /* light green */
+      --bg-2:#dcedc1;  /* pale */
+      --accent:#2e7d32; /* deep green */
+      --accent-2:#6d4c41; /* brown */
+      --card:#ffffff;
+      --muted:#6b7280;
+      --danger:#e15858;
+      --radius:14px;
+      --shadow: 0 10px 30px rgba(16,24,40,0.12);
+      --glass: rgba(255,255,255,0.6);
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: linear-gradient(135deg, var(--bg-1) 0%, #b9f6ca 25%, #fff9c4 60%, #efebe9 100%);
+      color:#0f172a;
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    .card{
+      width:100%;
+      max-width:420px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--card));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:28px;
+      backdrop-filter: blur(6px) saturate(120%);
+      border: 1px solid rgba(16,24,40,0.04);
+    }
+
+    .header{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .logo{
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .brand{
+      line-height:1;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:-0.2px;
+    }
+
+    .brand p{
+      margin:0;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    form {
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .field{
+      position:relative;
+      display:block;
+    }
+
+    input[type="email"],
+    input[type="password"]{
+      width:100%;
+      padding:16px 14px 12px 14px;
+      border-radius:10px;
+      border:1px solid rgba(16,24,40,0.08);
+      background: var(--glass);
+      font-size:14px;
+      outline:none;
+      transition: box-shadow .15s ease, border-color .15s ease, transform .06s ease;
+    }
+
+    /* floating label */
+    .field label{
+      position:absolute;
+      left:12px;
+      top:12px;
+      background:transparent;
+      color:var(--muted);
+      font-size:13px;
+      padding:0 6px;
+      transition: transform .12s ease, top .12s ease, font-size .12s ease, color .12s ease;
+      pointer-events:none;
+    }
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label{
+      top:-8px;
+      transform:translateY(0);
+      font-size:11px;
+      color:var(--accent);
+      background: transparent;
+    }
+
+    input:focus{
+      border-color: rgba(46,125,50,0.9);
+      box-shadow: 0 6px 18px rgba(46,125,50,0.08);
+    }
+
+    .help{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:6px;
+    }
+
+    .error{
+      font-size:13px;
+      color:var(--danger);
+      margin-top:6px;
+      display:none;
+      animation: fade .2s ease;
+    }
+
+    .error.show{ display:block; }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:4px;
+    }
+
+    .btn{
+      padding:12px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      color:#fff;
+      background:linear-gradient(90deg,var(--accent),#1b5e20 120%);
+      box-shadow: 0 8px 24px rgba(46,125,50,0.18);
+      transition: transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .btn:active{ transform: translateY(1px) scale(.998); }
+
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent-2);
+      border:1px solid rgba(16,24,40,0.06);
+      box-shadow:none;
+    }
+
+    .btn:hover{ transform: translateY(-3px); box-shadow: 0 16px 36px rgba(16,24,40,0.12); }
+
+    .note{
+      text-align:center;
+      font-size:13px;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:34px;
+      background:rgba(0,0,0,0.85);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:10px;
+      font-size:13px;
+      display:none;
+      box-shadow:0 8px 30px rgba(2,6,23,0.36);
+    }
+
+    .toast.show{ display:block; animation: pop .28s cubic-bezier(.2,.9,.22,1); }
+
+    @keyframes pop{
+      from{ transform: translateX(-50%) translateY(8px) scale(.98); opacity:0 }
+      to{ transform: translateX(-50%) translateY(0) scale(1); opacity:1 }
+    }
+
+    @keyframes fade{ from{ opacity:0 } to{ opacity:1 } }
+
+    /* small screens */
+    @media (max-width:420px){
+      .card{ padding:18px; border-radius:12px; }
+      .logo{ width:44px; height:44px; font-size:16px; border-radius:10px; }
+    }
+
+    /* Modal styles */
+    .forgot-modal {
+      position:fixed;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      z-index:1000;
+      width:90%;
+      max-width:400px;
+      background:#fff;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(16,24,40,0.12);
+      padding:24px;
+      display:none;
+    }
+
+    .forgot-card{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .forgot-card h2{
+      margin:0;
+      font-size:16px;
+      color:var(--accent);
+    }
+
+    .forgot-card p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* Override button styles in modal */
+    .forgot-card .btn{
+      padding:10px 12px;
+      font-size:14px;
+    }
+
+    /* Close button for modal */
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(16,24,40,0.06);
+      box-shadow:none;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:500;
+      transition: background .15s ease;
+    }
+
+    .btn.secondary:hover{
+      background:rgba(46,125,50,0.04);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main" aria-labelledby="signin-title">
+      <div class="header">
+        <div class="logo" aria-hidden="true">QL</div>
+        <div class="brand">
+          <h1 id="signin-title">QLTT Lớp Học</h1>
+          <p>Đăng nhập để quản lý thông tin lớp</p>
+        </div>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <input id="email" name="email" type="email" placeholder=" " autocomplete="username" required>
+          <label for="email">Email</label>
+          <div id="emailErr" class="error" aria-live="polite"></div>
+        </div>
+
+        <div class="field" style="position:relative;">
+          <input id="password" name="password" type="password" placeholder=" " autocomplete="current-password" required minlength="8">
+          <label for="password">Mật khẩu</label>
+          <!-- password visibility toggle -->
+          <button id="pwdToggle" type="button" aria-label="Hiển thị mật khẩu" aria-pressed="false"
+                  style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; color:var(--muted); font-weight:600; padding:6px;">
+            Hiện
+          </button>
+          <div id="pwdErr" class="error" aria-live="polite"></div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn" id="submitBtn">Đăng nhập</button>
+          <button type="button" class="btn secondary" id="demoBtn" title="Sử dụng tài khoản demo">Tài khoản demo</button>
+        </div>
+
+        <div class="note">
+          Chưa có tài khoản? Liên hệ admin để được cấp.
+        </div>
+
+        <div style="text-align:center; margin-top:8px;">
+          <a href="#" id="forgotLink" style="color:var(--accent); font-weight:600; text-decoration:none;">Quên mật khẩu?</a>
+        </div>
+
+        <!-- Forgot Password Modal (frontend-only demo) -->
+        <div id="forgotModal" aria-hidden="true" class="forgot-modal" role="dialog" aria-labelledby="fp-title" style="display:none;">
+          <div class="forgot-card" role="document">
+            <h2 id="fp-title" style="margin:0 0 8px 0;">Yêu cầu đặt lại mật khẩu</h2>
+            <p style="margin:0 0 12px 0; color:var(--muted); font-size:13px;">Nhập email để nhận liên kết đặt lại mật khẩu (demo frontend).</p>
+            <div style="display:flex; gap:8px; margin-bottom:8px;">
+              <input id="fpEmail" type="email" placeholder="Email" style="flex:1; padding:10px 12px; border-radius:8px; border:1px solid rgba(16,24,40,0.08);">
+              <button id="fpSend" class="btn" style="padding:10px 12px;">Gửi</button>
+            </div>
+            <div id="fpMsg" class="help" aria-live="polite" style="min-height:22px;"></div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+              <button id="fpClose" class="btn secondary">Đóng</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const emailErr = document.getElementById('emailErr');
+      const pwdErr = document.getElementById('pwdErr');
+      const toast = document.getElementById('toast');
+      const demoBtn = document.getElementById('demoBtn');
+      const forgotLink = document.getElementById('forgotLink');
+      const forgotModal = document.getElementById('forgotModal');
+      const fpEmail = document.getElementById('fpEmail');
+      const fpSend = document.getElementById('fpSend');
+      const fpMsg = document.getElementById('fpMsg');
+      const fpClose = document.getElementById('fpClose');
+      // password visibility toggle
+      const pwdInput = document.getElementById('password');
+      const pwdToggle = document.getElementById('pwdToggle');
+      if(pwdInput && pwdToggle){
+        pwdToggle.addEventListener('click', ()=>{
+          const isHidden = pwdInput.type === 'password';
+          pwdInput.type = isHidden ? 'text' : 'password';
+          pwdToggle.textContent = isHidden ? 'Ẩn' : 'Hiện';
+          pwdToggle.setAttribute('aria-pressed', String(isHidden));
+          pwdToggle.setAttribute('aria-label', isHidden ? 'Ẩn mật khẩu' : 'Hiển thị mật khẩu');
+          // keep focus on input after toggle for nicer UX
+          pwdInput.focus();
+        });
+      }
+
+      function showToast(text, timeout=2500){
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(()=> toast.classList.remove('show'), timeout);
+      }
+
+      function validateEmail(val){
+        // simple but robust-ish email regex
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+        return re.test(val);
+      }
+
+      function clearErrors(){
+        emailErr.textContent='';
+        pwdErr.textContent='';
+        emailErr.classList.remove('show');
+        pwdErr.classList.remove('show');
+      }
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        clearErrors();
+        let ok = true;
+        const em = email.value.trim();
+        const pw = password.value;
+
+        if(!em){
+          emailErr.textContent = 'Vui lòng nhập email.';
+          emailErr.classList.add('show');
+          ok = false;
+        } else if(!validateEmail(em)){
+          emailErr.textContent = 'Email không hợp lệ.';
+          emailErr.classList.add('show');
+          ok = false;
+        }
+
+        if(!pw){
+          pwdErr.textContent = 'Vui lòng nhập mật khẩu.';
+          pwdErr.classList.add('show');
+          ok = false;
+        } else if(pw.length < 8){
+          pwdErr.textContent = 'Mật khẩu phải có ít nhất 8 ký tự.';
+          pwdErr.classList.add('show');
+          ok = false;
+        }
+
+        if(!ok){
+          // subtle shake effect
+          form.animate([{ transform:'translateX(-4px)' },{ transform:'translateX(4px)' },{ transform:'translateX(0)' }], { duration:240, iterations:1 });
+          return;
+        }
+
+        // Simulated login flow (replace with real API)
+        // For demo accept any email/password that pass validation
+        showToast('Đăng nhập thành công — chuyển hướng...', 1200);
+
+        // chuyển hướng sang trang chính sau khi hiển thị thông báo
+        setTimeout(()=> {
+          // nếu cần lưu token: localStorage.setItem('token', '...'); 
+          // thay đổi đường dẫn bên dưới nếu trang chính khác
+          // frontend-demo: lưu session và password để cho trang đổi mật khẩu sử dụng
+          try{
+            const key = 'userPassword::' + em.toLowerCase();
+            localStorage.setItem(key, pw); // demo only: lưu mật khẩu plaintext (không an toàn, chỉ demo)
+            localStorage.setItem('sessionEmail', em.toLowerCase());
+          }catch(e){}
+          // chuyển tới trang chính
+          window.location.href = './index.html';
+        }, 900);
+      });
+
+      // quick demo credentials filler
+      demoBtn.addEventListener('click', ()=>{
+        email.value = 'student1@example.com';
+        password.value = 'studentpass';
+        clearErrors();
+        showToast('Đã điền tài khoản demo',1200);
+        // also pre-save demo account for use by change-password demo
+        try{
+          localStorage.setItem('userPassword::student1@example.com', 'studentpass');
+        }catch(e){}
+      });
+
+      // accessibility: remove error on input
+      [email,password].forEach(el=>{
+        el.addEventListener('input', ()=> {
+          clearErrors();
+        });
+      });
+
+      // Forgot password modal
+      forgotLink.addEventListener('click', (e)=>{
+        e.preventDefault();
+        forgotModal.style.display = 'block';
+        setTimeout(()=> forgotModal.classList.add('show'), 10);
+      });
+
+      fpClose.addEventListener('click', ()=>{
+        forgotModal.classList.remove('show');
+        setTimeout(()=> forgotModal.style.display = 'none', 300);
+      });
+
+      // Simulate password reset email sending
+      fpSend.addEventListener('click', ()=>{
+        const emailValue = fpEmail.value.trim();
+        if(!emailValue){
+          fpMsg.textContent = 'Vui lòng nhập email.';
+          fpMsg.classList.add('show');
+          return;
+        } else if(!validateEmail(emailValue)){
+          fpMsg.textContent = 'Email không hợp lệ.';
+          fpMsg.classList.add('show');
+          return;
+        }
+
+        // Simulate success response
+        fpMsg.textContent = 'Đã gửi liên kết đặt lại mật khẩu đến email của bạn.';
+        fpMsg.classList.add('show');
+        fpEmail.value = '';
+
+        // Hide modal after 3 seconds
+        setTimeout(()=>{
+          forgotModal.classList.remove('show');
+          setTimeout(()=> forgotModal.style.display = 'none', 300);
+        }, 3000);
+      });
+
+    })();
+  </script>
+  <style>
+    /* Small tweak: ensure toggle button doesn't overlap label on small screens */
+    @media (max-width:420px){
+      #pwdToggle{ right:8px; font-size:13px; padding:4px; }
+    }
+  </style>
+</body>
+</html>

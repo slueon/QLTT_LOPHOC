@@ -1,57 +1,417 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QLTT Lop Hoc</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QLTT Lớp học — Bảng điều khiển</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to QLTT Lop Hoc</h1>
-        <nav id="nav-area">
-            <!-- Login form shown when not logged in -->
-            <form id="login-form" class="inline-form">
-                <input type="text" id="username" placeholder="Tên đăng nhập" required>
-                <input type="password" id="password" placeholder="Mật khẩu" required>
-                <button type="submit">Đăng nhập</button>
-            </form>
+  <div class="app" role="application">
+    <aside class="sidebar" aria-label="Thanh điều hướng">
+      <div class="brand">
+        <div class="logo">QL</div>
+        <div>
+          <div class="title">QLTT Lớp học</div>
+          <div style="font-size:12px;color:var(--muted)">Quản lý thông tin lớp & sinh viên</div>
+        </div>
+      </div>
 
-            <!-- Shown when logged in -->
-            <div id="user-area" class="hidden">
-                <span id="welcome-text"></span>
-                <button id="logout-btn">Đăng xuất</button>
+      <div class="profile-mini" id="sidebar-profile">
+        <div id="side-avatar" style="width:44px;height:44px;border-radius:8px;background:#f3f4f6;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.04)">
+          <img id="side-avatar-img" src="" alt="avatar" style="width:100%;height:100%;object-fit:cover;display:none">
+          <div id="side-avatar-placeholder" style="font-weight:700;color:var(--muted)">U</div>
+        </div>
+        <div class="info">
+          <div id="side-name" style="font-weight:700">Khách</div>
+          <div id="side-role" style="font-size:12px;color:var(--muted)">Không có phiên</div>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="Chức năng">
+        <button id="nav-dash" class="active">Tổng quan</button>
+        <button id="nav-classes">Lớp học</button>
+        <button id="nav-schedule">Lịch</button>
+        <button id="nav-students">Sinh viên</button>
+        <button id="nav-settings">Cài đặt</button>
+      </nav>
+
+      <div style="margin-top:auto; display:flex; gap:8px; align-items:center; justify-content:center">
+        <button id="nav-profile" style="padding:8px 12px;border-radius:10px;border:1px solid rgba(16,24,40,0.06);background:transparent;cursor:pointer">Hồ sơ</button>
+        <button id="nav-logout" style="padding:8px 12px;border-radius:10px;background:var(--accent);color:#fff;border:none;cursor:pointer">Đăng xuất</button>
+      </div>
+    </aside>
+
+    <section class="main" aria-live="polite">
+      <div class="topbar">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <h2 style="margin:0">Tổng quan</h2>
+          <div style="font-size:13px;color:var(--muted)">Chào mừng trở lại</div>
+        </div>
+
+        <div class="search">
+          <input id="global-search" placeholder="Tìm lớp, sinh viên, thông báo..." />
+          <div class="top-actions">
+            <button class="icon-btn" id="notifBtn" title="Thông báo">🔔</button>
+            <button class="icon-btn" id="quickAdd">＋</button>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div id="nav-avatar" style="width:40px;height:40px;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center">
+                <img id="nav-avatar-img" src="" alt="Avatar" style="width:100%;height:100%;object-fit:cover;display:none">
+                <div id="nav-avatar-placeholder" style="font-weight:700;color:var(--muted)">U</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                <div id="nav-user" style="font-weight:700">Khách</div>
+                <div style="font-size:12px;color:var(--muted)" id="nav-role">—</div>
+              </div>
             </div>
-        </nav>
-    </header>
+          </div>
+        </div>
+      </div>
 
-    <main>
-        <!-- Default content -->
-        <section id="public-content">
-            <p>This is the main content area of the web application.</p>
-        </section>
+      <div class="grid" style="margin-top:6px;">
+        <div class="card h-lg" style="grid-column: span 8;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div>
+              <h3 style="margin:0">Hoạt động gần đây</h3>
+              <div style="font-size:13px;color:var(--muted)">Các tương tác và thông báo mới nhất</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="icon-btn">Bộ lọc</button>
+              <button class="icon-btn">Xuất</button>
+            </div>
+          </div>
 
-        <!-- Role-specific dashboards -->
-        <section id="student-dashboard" class="hidden">
-            <h2>Dashboard - Sinh viên</h2>
-            <p>Danh sách môn học, điểm, thông báo dành cho sinh viên.</p>
-        </section>
+          <div class="list" id="recent-activity">
+            <div class="item"><div>Thông báo: Lịch thi học kỳ</div><div style="font-size:12px;color:var(--muted)">1 giờ trước</div></div>
+            <div class="item"><div>Giảng viên cập nhật điểm</div><div style="font-size:12px;color:var(--muted)">Hôm qua</div></div>
+            <div class="item"><div>Thêm lớp mới: Toán 101</div><div style="font-size:12px;color:var(--muted)">2 ngày trước</div></div>
+          </div>
+        </div>
 
-        <section id="teacher-dashboard" class="hidden">
-            <h2>Dashboard - Giảng viên</h2>
-            <p>Quản lý lớp, danh sách sinh viên, chấm điểm.</p>
-        </section>
+        <div class="card h-sm" style="grid-column: span 4;">
+          <h3 style="margin:0 0 12px 0">Tổng quan nhanh</h3>
+          <div class="stats">
+            <div class="stat"><h3 id="stat-classes">0</h3><p>Lớp</p></div>
+            <div class="stat"><h3 id="stat-students">0</h3><p>Sinh viên</p></div>
+            <div class="stat"><h3 id="stat-avg">0</h3><p>Điểm TB</p></div>
+          </div>
 
-        <section id="admin-dashboard" class="hidden">
-            <h2>Dashboard - Admin</h2>
-            <p>Quản lý người dùng, phân quyền, cấu hình hệ thống.</p>
-        </section>
-    </main>
+          <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,0.04)">
 
-    <footer>
-        <p>&copy; 2023 QLTT Lop Hoc. All rights reserved.</p>
-    </footer>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="icon-btn" id="open-profile">Mở hồ sơ</button>
+            <button class="icon-btn" id="open-change" style="background:var(--accent);color:#fff;border:none">Đổi mật khẩu</button>
+          </div>
+        </div>
 
-    <script src="assets/js/main.js"></script>
+        <div class="card" style="grid-column: span 4;">
+          <h3 style="margin:0 0 8px 0">Lịch sắp tới</h3>
+          <div class="list">
+            <div class="item"><div>Toán 101 — Tiết 3</div><div style="font-size:12px;color:var(--muted)">Hôm nay 10:00</div></div>
+            <div class="item"><div>Vật lý — Thảo luận</div><div style="font-size:12px;color:var(--muted)">Ngày mai 14:00</div></div>
+          </div>
+        </div>
+
+        <div class="card" style="grid-column: span 8;">
+          <h3 style="margin:0 0 8px 0">Danh sách lớp</h3>
+          <div class="list" id="classes-list">
+            <div class="item"><div>Toán 101</div><div class="actions-row"><button class="icon-btn">Mở</button><button class="icon-btn">Sửa</button></div></div>
+            <div class="item"><div>Hóa học 201</div><div class="actions-row"><button class="icon-btn">Mở</button><button class="icon-btn">Sửa</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        &copy; 2025 QLTT Lớp học — Hệ thống quản lý thông tin lớp học
+      </footer>
+    </section>
+  </div>
+
+  <!-- Keep existing modals (profile, change password) with same IDs used by script -->
+  <!-- Change Password Modal -->
+  <div id="changePwdModal" aria-hidden="true" style="position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(3,7,18,0.36); z-index:1200;">
+    <div role="dialog" aria-labelledby="cp-title" style="width:100%; max-width:480px; background:#fff; border-radius:12px; padding:20px; box-shadow:0 12px 36px rgba(2,6,23,0.28); border:1px solid rgba(16,24,40,0.04);">
+      <h3 id="cp-title" style="margin:0 0 8px 0; color:#2e7d32;">Đổi mật khẩu</h3>
+      <p id="cp-note" style="margin:0 0 12px 0; color:#6b7280;">Nhập mật khẩu hiện tại và mật khẩu mới (tối thiểu 8 ký tự).</p>
+      <div id="cp-status" style="color:#6b7280; font-size:13px; margin-bottom:8px;"></div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <input id="cp-cur" type="password" placeholder="Mật khẩu hiện tại" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+        <input id="cp-new" type="password" placeholder="Mật khẩu mới" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+        <input id="cp-conf" type="password" placeholder="Xác nhận mật khẩu mới" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+        <div id="cp-error" style="color:#e15858; min-height:18px;"></div>
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:6px;">
+          <button id="cp-cancel" style="padding:8px 10px; border-radius:8px; background:transparent; border:1px solid rgba(0,0,0,0.06); cursor:pointer;">Hủy</button>
+          <button id="cp-submit" style="padding:8px 12px; border-radius:8px; background:#2e7d32; color:#fff; border:none; cursor:pointer;">Cập nhật</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" aria-hidden="true" style="position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(3,7,18,0.36); z-index:1210;">
+    <div role="dialog" aria-labelledby="pf-title" style="width:100%; max-width:520px; background:#fff; border-radius:12px; padding:20px; box-shadow:0 12px 36px rgba(2,6,23,0.28); border:1px solid rgba(16,24,40,0.04);">
+      <h3 id="pf-title" style="margin:0 0 8px 0; color:#2e7d32;">Hồ sơ của tôi</h3>
+      <p style="margin:0 0 12px 0; color:#6b7280;">Xem và cập nhật thông tin cá nhân (frontend-demo).</p>
+      <div id="pf-status" style="color:#6b7280; font-size:13px; margin-bottom:8px;"></div>
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <div style="min-width:96px; text-align:center;">
+          <div id="pf-avatar-wrap" style="width:96px;height:96px;border-radius:12px;background:#f3f4f6;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.04);">
+            <img id="pf-avatar-preview" src="" alt="Avatar" style="width:100%;height:100%;object-fit:cover;display:none;">
+            <div id="pf-avatar-placeholder" style="font-weight:700;color:#6b7280;">A</div>
+          </div>
+          <div style="margin-top:8px; display:flex; gap:6px; justify-content:center;">
+            <label for="pf-avatar" style="padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-size:13px;">Chọn</label>
+            <button id="pf-avatar-remove" type="button" style="padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-size:13px;">Xóa</button>
+          </div>
+          <input id="pf-avatar" type="file" accept="image/*" style="display:none;">
+        </div>
+
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <input id="pf-name" type="text" placeholder="Tên hiển thị" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+          <input id="pf-email" type="email" placeholder="Email" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);" readonly>
+          <input id="pf-phone" type="tel" placeholder="Số điện thoại" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+          <input id="pf-address" type="text" placeholder="Địa chỉ" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+          <select id="pf-role" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+            <option value="student">Sinh viên</option>
+            <option value="teacher">Giảng viên</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <div id="pf-error" style="color:#e15858; min-height:18px;"></div>
+          <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:6px;">
+            <button id="pf-cancel" style="padding:8px 10px; border-radius:8px; background:transparent; border:1px solid rgba(0,0,0,0.06); cursor:pointer;">Hủy</button>
+            <button id="pf-save" style="padding:8px 12px; border-radius:8px; background:#2e7d32; color:#fff; border:none; cursor:pointer;">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    (function(){
+      // existing profile / avatar / change-password logic preserved
+      const navUser = document.getElementById('nav-user');
+      const navAvatarImg = document.getElementById('nav-avatar-img');
+      const navAvatarPlaceholder = document.getElementById('nav-avatar-placeholder');
+      const profileBtn = document.getElementById('nav-profile');
+      // try both ids: top-nav (nav-change-pwd) or quick button (open-change)
+      const changeBtn = document.getElementById('nav-change-pwd') || document.getElementById('open-change');
+      const logoutBtn = document.getElementById('nav-logout');
+      const modal = document.getElementById('changePwdModal');
+      const cpStatus = document.getElementById('cp-status');
+      const cpError = document.getElementById('cp-error');
+      const curInp = document.getElementById('cp-cur');
+      const newInp = document.getElementById('cp-new');
+      const confInp = document.getElementById('cp-conf');
+      const cpCancel = document.getElementById('cp-cancel');
+      const cpSubmit = document.getElementById('cp-submit');
+      // profile elements
+      const profileModal = document.getElementById('profileModal');
+      const pfStatus = document.getElementById('pf-status');
+      const pfError = document.getElementById('pf-error');
+      const pfName = document.getElementById('pf-name');
+      const pfEmail = document.getElementById('pf-email');
+      const pfPhone = document.getElementById('pf-phone');
+      const pfAddress = document.getElementById('pf-address');
+      const pfRole = document.getElementById('pf-role');
+      const pfCancel = document.getElementById('pf-cancel');
+      const pfSave = document.getElementById('pf-save');
+      const pfAvatarInput = document.getElementById('pf-avatar');
+      const pfAvatarPreview = document.getElementById('pf-avatar-preview');
+      const pfAvatarPlaceholder = document.getElementById('pf-avatar-placeholder');
+      const pfAvatarRemove = document.getElementById('pf-avatar-remove');
+      let pfAvatarChanged = false;
+
+      if (pfAvatarInput) {
+        pfAvatarInput.addEventListener('change', (e) => {
+          const f = e.target.files && e.target.files[0];
+          if (!f) return;
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            const dataUrl = ev.target.result;
+            pfAvatarPreview.src = dataUrl;
+            pfAvatarPreview.style.display = 'block';
+            pfAvatarPlaceholder.style.display = 'none';
+            pfAvatarInput._dataUrl = dataUrl;
+            pfAvatarChanged = true;
+          };
+          reader.readAsDataURL(f);
+        });
+      }
+      if (pfAvatarRemove) {
+        pfAvatarRemove.addEventListener('click', () => {
+          try { pfAvatarInput.value = ''; } catch (e) {}
+          pfAvatarInput._dataUrl = null;
+          pfAvatarChanged = true;
+          pfAvatarPreview.src = '';
+          pfAvatarPreview.style.display = 'none';
+          pfAvatarPlaceholder.textContent = (pfName.value && pfName.value[0]) ? pfName.value[0].toUpperCase() : 'A';
+          pfAvatarPlaceholder.style.display = 'flex';
+        });
+      }
+
+      function getSessionEmail(){ return (localStorage.getItem('sessionEmail') || '').toLowerCase(); }
+      function getStoredPwd(email){ try{ const v = localStorage.getItem('userPassword::' + email.toLowerCase()); if(v) return v; }catch(e){} return null; }
+      function loadProfile(email){
+        if(!email) return null;
+        try{ const raw = localStorage.getItem('profile::' + email.toLowerCase()); if(raw) return JSON.parse(raw); }catch(e){}
+        return { name: email.split('@')[0] || '', email: email, phone: '', address: '', role: 'student', avatar: null };
+      }
+      function saveProfile(obj){ if(!obj || !obj.email) return; try{ localStorage.setItem('profile::' + obj.email.toLowerCase(), JSON.stringify(obj)); }catch(e){} }
+
+      function showModal(){
+        const email = getSessionEmail();
+        if(!email){ alert('Vui lòng đăng nhập trước khi đổi mật khẩu.'); return; }
+        navUser.textContent = email;
+        cpStatus.textContent = 'Đang đổi mật khẩu cho: ' + email;
+        cpError.textContent = '';
+        curInp.value = newInp.value = confInp.value = '';
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden','false');
+        curInp.focus();
+      }
+      function hideModal(){ modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); }
+
+      function showProfile(){
+        const email = getSessionEmail();
+        if(!email){ alert('Vui lòng đăng nhập để xem hồ sơ.'); return; }
+        const profile = loadProfile(email);
+        pfName.value = profile.name || '';
+        pfEmail.value = profile.email || email;
+        pfPhone.value = profile.phone || '';
+        pfAddress.value = profile.address || '';
+        pfRole.value = profile.role || 'student';
+        pfError.textContent = '';
+        pfStatus.textContent = 'Hồ sơ: ' + (profile.email || email);
+
+        if(profile.avatar){
+          pfAvatarPreview.src = profile.avatar;
+          pfAvatarPreview.style.display = 'block';
+          pfAvatarPlaceholder.style.display = 'none';
+        } else {
+          pfAvatarPreview.src = '';
+          pfAvatarPreview.style.display = 'none';
+          pfAvatarPlaceholder.textContent = (profile.name && profile.name[0]) ? profile.name[0].toUpperCase() : 'A';
+          pfAvatarPlaceholder.style.display = 'flex';
+        }
+
+        try { pfAvatarInput.value = ''; } catch(e) {}
+        pfAvatarInput._dataUrl = profile.avatar || null;
+        pfAvatarChanged = false;
+
+        profileModal.style.display = 'flex';
+        profileModal.setAttribute('aria-hidden','false');
+        pfName.focus();
+      }
+      function hideProfile(){ profileModal.style.display = 'none'; profileModal.setAttribute('aria-hidden','true'); }
+
+      (function initNav(){
+        const email = getSessionEmail();
+        if(email){
+          const profile = loadProfile(email);
+          navUser.textContent = (profile && profile.name) ? profile.name : email;
+          if(profile && profile.avatar){
+            navAvatarImg.src = profile.avatar;
+            navAvatarImg.style.display = 'block';
+            navAvatarPlaceholder.style.display = 'none';
+          } else {
+            navAvatarImg.src = '';
+            navAvatarImg.style.display = 'none';
+            navAvatarPlaceholder.textContent = (profile && profile.name && profile.name[0]) ? profile.name[0].toUpperCase() : 'U';
+            navAvatarPlaceholder.style.display = 'flex';
+          }
+          // sidebar mini
+          try {
+            document.getElementById('side-name').textContent = (profile && profile.name) ? profile.name : email;
+            document.getElementById('side-role').textContent = (profile && profile.role) ? profile.role : '—';
+            const sideImg = document.getElementById('side-avatar-img');
+            const sidePl = document.getElementById('side-avatar-placeholder');
+            if(profile && profile.avatar){
+              sideImg.src = profile.avatar; sideImg.style.display = 'block'; sidePl.style.display = 'none';
+            } else { sideImg.style.display = 'none'; sidePl.textContent = (profile && profile.name && profile.name[0]) ? profile.name[0].toUpperCase() : 'U'; sidePl.style.display = 'flex'; }
+          } catch(e){}
+        } else {
+          navUser.textContent = 'Khách';
+          navAvatarImg.src = '';
+          navAvatarImg.style.display = 'none';
+          navAvatarPlaceholder.textContent = 'U';
+          navAvatarPlaceholder.style.display = 'flex';
+        }
+      })();
+
+      if (changeBtn) changeBtn.addEventListener('click', showModal);
+      cpCancel.addEventListener('click', hideModal);
+      modal.addEventListener('click', (e)=> { if(e.target === modal) hideModal(); });
+
+      cpSubmit.addEventListener('click', ()=>{
+        cpError.textContent = '';
+        const email = getSessionEmail();
+        if(!email){ cpError.textContent = 'Phiên đăng nhập không tồn tại.'; return; }
+        const cur = (curInp.value || '');
+        const np = (newInp.value || '');
+        const cf = (confInp.value || '');
+        if(np.length < 8){ cpError.textContent = 'Mật khẩu mới phải có ít nhất 8 ký tự.'; return; }
+        if(np !== cf){ cpError.textContent = 'Mật khẩu xác nhận không khớp.'; return; }
+        const stored = getStoredPwd(email);
+        if(stored === null){ cpError.textContent = 'Không tìm thấy mật khẩu lưu trữ (demo).'; return; }
+        if(cur !== stored){ cpError.textContent = 'Mật khẩu hiện tại không đúng.'; return; }
+        try{ localStorage.setItem('userPassword::' + email.toLowerCase(), np); localStorage.setItem('pwChanged::' + email.toLowerCase(), Date.now().toString()); }catch(e){}
+        cpStatus.textContent = 'Đổi mật khẩu thành công.';
+        setTimeout(()=> { hideModal(); cpStatus.textContent = ''; }, 900);
+      });
+
+      profileBtn.addEventListener('click', showProfile);
+      pfCancel.addEventListener('click', hideProfile);
+      profileModal.addEventListener('click', (e)=> { if(e.target === profileModal) hideProfile(); });
+
+      pfSave.addEventListener('click', ()=>{
+        pfError.textContent = '';
+        const name = (pfName.value || '').trim();
+        const email = (pfEmail.value || '').trim().toLowerCase();
+        const phone = (pfPhone.value || '').trim();
+        const address = (pfAddress.value || '').trim();
+        const role = (pfRole.value || 'student');
+        if(!name){ pfError.textContent = 'Tên không được để trống.'; return; }
+        if(!/^\S+@\S+\.\S+$/.test(email)){ pfError.textContent = 'Email không hợp lệ.'; return; }
+
+        const existing = loadProfile(email);
+        const avatar = pfAvatarChanged ? (pfAvatarInput._dataUrl || null) : (existing && existing.avatar ? existing.avatar : null);
+        const obj = { name, email, phone, address, role, avatar };
+        saveProfile(obj);
+
+        navUser.textContent = name;
+        if(avatar){
+          navAvatarImg.src = avatar; navAvatarImg.style.display = 'block'; navAvatarPlaceholder.style.display = 'none';
+        } else {
+          navAvatarImg.src = ''; navAvatarImg.style.display = 'none'; navAvatarPlaceholder.textContent = (name && name[0]) ? name[0].toUpperCase() : 'U'; navAvatarPlaceholder.style.display = 'flex';
+        }
+
+        // update sidebar mini avatar/name/role
+        try {
+          const sideImg = document.getElementById('side-avatar-img');
+          const sidePl = document.getElementById('side-avatar-placeholder');
+          document.getElementById('side-name').textContent = name;
+          document.getElementById('side-role').textContent = role;
+          if(avatar){ sideImg.src = avatar; sideImg.style.display = 'block'; sidePl.style.display = 'none'; }
+          else { sideImg.style.display = 'none'; sidePl.textContent = (name && name[0]) ? name[0].toUpperCase() : 'U'; sidePl.style.display = 'flex'; }
+        } catch(e){}
+
+        pfAvatarChanged = false;
+        try { pfAvatarInput._dataUrl = avatar || null; } catch(e) {}
+        pfStatus.textContent = 'Cập nhật hồ sơ thành công.';
+        setTimeout(()=> { hideProfile(); pfStatus.textContent = ''; }, 800);
+      });
+
+      logoutBtn.addEventListener('click', ()=>{
+        try{ localStorage.removeItem('sessionEmail'); }catch(e){}
+        window.location.href = './login.html';
+      });
+
+      // quick access buttons wired to modals
+      document.getElementById('open-profile')?.addEventListener('click', showProfile);
+      document.getElementById('open-change')?.addEventListener('click', showModal);
+    })();
+  </script>
 </body>
 </html>
