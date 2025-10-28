@@ -32,6 +32,8 @@
         <button id="nav-dash" class="active">Tổng quan</button>
         <button id="nav-classes">Lớp học</button>
         <button id="nav-schedule">Lịch</button>
+        <button id="nav-grades">Điểm số</button>
+        <button id="nav-attendance">Điểm danh</button>
         <button id="nav-students">Sinh viên</button>
         <button id="nav-settings">Cài đặt</button>
       </nav>
@@ -106,9 +108,54 @@
 
         <div class="card" style="grid-column: span 4;">
           <h3 style="margin:0 0 8px 0">Lịch sắp tới</h3>
-          <div class="list">
+          <div class="list" id="upcoming-schedule">
             <div class="item"><div>Toán 101 — Tiết 3</div><div style="font-size:12px;color:var(--muted)">Hôm nay 10:00</div></div>
             <div class="item"><div>Vật lý — Thảo luận</div><div style="font-size:12px;color:var(--muted)">Ngày mai 14:00</div></div>
+          </div>
+          <div style="text-align: center; margin-top: 8px;">
+            <button class="icon-btn" onclick="window.location.href='schedule.html'" style="background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Xem lịch đầy đủ</button>
+          </div>
+        </div>
+
+        <div class="card" style="grid-column: span 4;">
+          <h3 style="margin:0 0 8px 0">Điểm số</h3>
+          <div class="stats" style="margin-bottom: 12px;">
+            <div class="stat">
+              <h3 style="color: #4caf50; margin: 0;">3.2</h3>
+              <p style="margin: 4px 0 0 0;">Điểm TB</p>
+            </div>
+            <div class="stat">
+              <h3 style="color: var(--accent); margin: 0;">5</h3>
+              <p style="margin: 4px 0 0 0;">Môn qua</p>
+            </div>
+            <div class="stat">
+              <h3 style="color: #ff9800; margin: 0;">2</h3>
+              <p style="margin: 4px 0 0 0;">Môn xuất sắc</p>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <button class="icon-btn" onclick="window.location.href='grades.html'" style="background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Xem chi tiết</button>
+          </div>
+        </div>
+
+        <div class="card" style="grid-column: span 4;">
+          <h3 style="margin:0 0 8px 0">Điểm danh</h3>
+          <div class="stats" style="margin-bottom: 12px;">
+            <div class="stat">
+              <h3 style="color: #4caf50; margin: 0;">92.5%</h3>
+              <p style="margin: 4px 0 0 0;">Chuyên cần</p>
+            </div>
+            <div class="stat">
+              <h3 style="color: var(--accent); margin: 0;">44</h3>
+              <p style="margin: 4px 0 0 0;">Có mặt</p>
+            </div>
+            <div class="stat">
+              <h3 style="color: #f44336; margin: 0;">4</h3>
+              <p style="margin: 4px 0 0 0;">Vắng mặt</p>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <button class="icon-btn" onclick="window.location.href='attendance.html'" style="background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Xem chi tiết</button>
           </div>
         </div>
 
@@ -411,6 +458,54 @@
       // quick access buttons wired to modals
       document.getElementById('open-profile')?.addEventListener('click', showProfile);
       document.getElementById('open-change')?.addEventListener('click', showModal);
+
+      // Navigation handlers
+      document.getElementById('nav-schedule').addEventListener('click', () => {
+        window.location.href = 'schedule.html';
+      });
+      document.getElementById('nav-grades').addEventListener('click', () => {
+        window.location.href = 'grades.html';
+      });
+      document.getElementById('nav-attendance').addEventListener('click', () => {
+        window.location.href = 'attendance.html';
+      });
+      document.getElementById('nav-classes').addEventListener('click', () => {
+        // Stay on current page for now
+      });
+      document.getElementById('nav-students').addEventListener('click', () => {
+        // Stay on current page for now
+      });
+      document.getElementById('nav-settings').addEventListener('click', () => {
+        // Stay on current page for now
+      });
+
+      // Update upcoming schedule on dashboard
+      function updateUpcomingSchedule() {
+        const upcomingList = document.getElementById('upcoming-schedule');
+        if (!upcomingList) return;
+
+        // Sample upcoming classes data
+        const upcomingClasses = [
+          { subject: 'Toán 101', time: 'Hôm nay 08:00', room: 'A101' },
+          { subject: 'Vật lý 201', time: 'Hôm nay 10:00', room: 'B205' },
+          { subject: 'Tin học 401', time: 'Ngày mai 14:00', room: 'D401' },
+          { subject: 'Anh văn 501', time: 'Thứ 4 08:00', room: 'E501' }
+        ];
+
+        upcomingList.innerHTML = '';
+        upcomingClasses.forEach(cls => {
+          const item = document.createElement('div');
+          item.className = 'item';
+          item.innerHTML = `
+            <div>${cls.subject} — ${cls.room}</div>
+            <div style="font-size:12px;color:var(--muted)">${cls.time}</div>
+          `;
+          upcomingList.appendChild(item);
+        });
+      }
+
+      // Initialize upcoming schedule
+      updateUpcomingSchedule();
     })();
   </script>
 </body>
